@@ -1,0 +1,68 @@
+package io.github.lijinhong11.treasury.neoforge;
+
+import com.google.gson.Gson;
+import io.github.lijinhong11.treasury.Treasury;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Logger;
+
+@Mod(TreasuryNeoForge.MODID)
+public class TreasuryNeoForge {
+    public static final String MODID = "treasury";
+
+    private static final Gson GSON = new Gson()
+            .newBuilder()
+            .setPrettyPrinting()
+            .create();
+
+    private static final Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("treasury.json");
+    private static final Logger LOGGER = Treasury.logger();
+
+    public TreasuryNeoForge() {
+        NeoForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void onServerStarting(ServerStartingEvent event) {
+        init();
+        LOGGER.info("Initialized Treasury");
+    }
+
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        init();
+        LOGGER.info("Initialized Treasury");
+    }
+
+    private static void init() {
+        try {
+            if (Files.notExists(CONFIG_PATH)) {
+                Files.writeString(
+                        CONFIG_PATH,
+                        GSON.toJson(new NeoForgeTreasuryConfig()),
+                        StandardCharsets.UTF_8
+                );
+            }
+
+            NeoForgeTreasuryConfig config =
+                    GSON.fromJson(Files.readString(CONFIG_PATH), NeoForgeTreasuryConfig.class);
+
+            Treasury.setConfig(config);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load treasury config", e);
+        }
+
+        if (!Treasury.economyService().hasPrimary()) {
+            Treasury.logger().info("Cannot found primary economy! Did you install any economy implementation?");
+        }
+    }
+}
