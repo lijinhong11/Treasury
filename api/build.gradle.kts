@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("maven-publish")
+    id("io.johnsonlee.sonatype-publish-plugin") version "1.6.1"
 }
 
 group = "io.github.lijinhong11"
@@ -18,17 +18,4 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            artifactId = "treasury"
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        // add publish repos here
-    }
 }

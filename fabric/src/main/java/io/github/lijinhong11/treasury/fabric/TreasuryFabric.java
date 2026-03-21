@@ -3,7 +3,7 @@ package io.github.lijinhong11.treasury.fabric;
 import com.google.gson.Gson;
 import io.github.lijinhong11.treasury.Treasury;
 import io.github.lijinhong11.treasury.TreasuryConfigImpl;
-import io.github.lijinhong11.treasury.economy.EconomyProvider;
+import io.github.lijinhong11.treasury.EconomyProvider;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 

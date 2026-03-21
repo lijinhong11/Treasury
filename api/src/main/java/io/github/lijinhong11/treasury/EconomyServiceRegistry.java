@@ -1,7 +1,4 @@
-package io.github.lijinhong11.treasury.services;
-
-import io.github.lijinhong11.treasury.Treasury;
-import io.github.lijinhong11.treasury.economy.EconomyProvider;
+package io.github.lijinhong11.treasury;
 
 import java.util.Collection;
 import java.util.Map;

@@ -1,7 +1,5 @@
 package io.github.lijinhong11.treasury;
 
-import io.github.lijinhong11.treasury.services.EconomyServiceRegistry;
-
 import java.util.Objects;
 import java.util.logging.Logger;
 

@@ -1,4 +1,4 @@
-package io.github.lijinhong11.treasury.economy;
+package io.github.lijinhong11.treasury;
 
 import java.util.UUID;
 
