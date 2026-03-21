@@ -62,7 +62,7 @@ public class TreasuryForge {
             throw new RuntimeException("Failed to load treasury config", e);
         }
 
-        if (!Treasury.economyService().hasPrimary()) {
+        if (!Treasury.economy().hasPrimary()) {
             Treasury.logger().info("Cannot found primary economy! Did you install any economy implementation?");
         }
     }

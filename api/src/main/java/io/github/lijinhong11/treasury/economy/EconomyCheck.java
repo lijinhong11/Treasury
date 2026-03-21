@@ -13,16 +13,6 @@ import java.util.UUID;
  */
 public interface EconomyCheck {
     /**
-     * Gets the unique identifier of this check.
-     * <br>
-     * This should be globally unique to prevent duplication
-     * or multiple redemptions.
-     *
-     * @return check unique id
-     */
-    UUID getId();
-
-    /**
      * Gets the monetary value of this check.
      *
      * @return value stored in the check

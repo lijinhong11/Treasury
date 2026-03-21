@@ -3,9 +3,7 @@ package io.github.lijinhong11.treasury.fabric;
 import com.google.gson.Gson;
 import io.github.lijinhong11.treasury.Treasury;
 import io.github.lijinhong11.treasury.TreasuryConfigImpl;
-import io.github.lijinhong11.treasury.chat.ChatProvider;
 import io.github.lijinhong11.treasury.economy.EconomyProvider;
-import io.github.lijinhong11.treasury.permission.PermissionProvider;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -51,20 +49,10 @@ public class TreasuryFabric implements ModInitializer {
 
         List<EconomyProvider> economyProviders = FabricLoader.getInstance().getEntrypoints("treasury-economy", EconomyProvider.class);
         if (economyProviders != null && !economyProviders.isEmpty()) {
-            economyProviders.forEach(Treasury.economyService()::register);
+            economyProviders.forEach(Treasury.economy()::register);
         }
 
-        List<PermissionProvider> permissionProviders = FabricLoader.getInstance().getEntrypoints("treasury-permission", PermissionProvider.class);
-        if (permissionProviders != null && !permissionProviders.isEmpty()) {
-            Treasury.permissionService().register(permissionProviders.get(0));
-        }
-
-        List<ChatProvider> chatProviders = FabricLoader.getInstance().getEntrypoints("treasury-chat", ChatProvider.class);
-        if (chatProviders != null && !chatProviders.isEmpty()) {
-            Treasury.chatService().register(chatProviders.get(0));
-        }
-
-        if (!Treasury.economyService().hasPrimary()) {
+        if (!Treasury.economy().hasPrimary()) {
             Treasury.logger().info("Cannot found primary economy! Did you install any economy implementation?");
         }
     }
