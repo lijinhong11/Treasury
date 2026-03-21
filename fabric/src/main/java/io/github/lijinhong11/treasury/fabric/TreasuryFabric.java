@@ -2,6 +2,7 @@ package io.github.lijinhong11.treasury.fabric;
 
 import com.google.gson.Gson;
 import io.github.lijinhong11.treasury.Treasury;
+import io.github.lijinhong11.treasury.TreasuryConfigImpl;
 import io.github.lijinhong11.treasury.chat.ChatProvider;
 import io.github.lijinhong11.treasury.economy.EconomyProvider;
 import io.github.lijinhong11.treasury.permission.PermissionProvider;
@@ -35,13 +36,13 @@ public class TreasuryFabric implements ModInitializer {
             if (Files.notExists(CONFIG_PATH)) {
                 Files.writeString(
                         CONFIG_PATH,
-                        GSON.toJson(new FabricTreasuryConfig()),
+                        GSON.toJson(new TreasuryConfigImpl()),
                         StandardCharsets.UTF_8
                 );
             }
 
-            FabricTreasuryConfig config =
-                    GSON.fromJson(Files.readString(CONFIG_PATH), FabricTreasuryConfig.class);
+            TreasuryConfigImpl config =
+                    GSON.fromJson(Files.readString(CONFIG_PATH), TreasuryConfigImpl.class);
 
             Treasury.setConfig(config);
         } catch (IOException e) {

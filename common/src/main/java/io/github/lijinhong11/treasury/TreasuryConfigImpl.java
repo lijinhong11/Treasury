@@ -1,17 +1,13 @@
-package io.github.lijinhong11.treasury.forge;
+package io.github.lijinhong11.treasury;
 
-import io.github.lijinhong11.treasury.TreasuryConfig;
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
-public class ForgeTreasuryConfig implements TreasuryConfig {
+public class TreasuryConfigImpl implements TreasuryConfig {
     private String primaryEconomy = "";
     private boolean debug = false;
 
-    public ForgeTreasuryConfig() {
+    public TreasuryConfigImpl() {
     }
 
-    public ForgeTreasuryConfig(String primaryEconomy, boolean debug) {
+    public TreasuryConfigImpl(String primaryEconomy, boolean debug) {
         this.primaryEconomy = primaryEconomy;
         this.debug = debug;
     }

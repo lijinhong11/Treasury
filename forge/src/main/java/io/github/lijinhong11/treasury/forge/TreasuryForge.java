@@ -2,6 +2,7 @@ package io.github.lijinhong11.treasury.forge;
 
 import com.google.gson.Gson;
 import io.github.lijinhong11.treasury.Treasury;
+import io.github.lijinhong11.treasury.TreasuryConfigImpl;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,13 +49,13 @@ public class TreasuryForge {
             if (Files.notExists(CONFIG_PATH)) {
                 Files.writeString(
                         CONFIG_PATH,
-                        GSON.toJson(new ForgeTreasuryConfig()),
+                        GSON.toJson(new TreasuryConfigImpl()),
                         StandardCharsets.UTF_8
                 );
             }
 
-            ForgeTreasuryConfig config =
-                    GSON.fromJson(Files.readString(CONFIG_PATH), ForgeTreasuryConfig.class);
+            TreasuryConfigImpl config =
+                    GSON.fromJson(Files.readString(CONFIG_PATH), TreasuryConfigImpl.class);
 
             Treasury.setConfig(config);
         } catch (IOException e) {

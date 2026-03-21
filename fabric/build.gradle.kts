@@ -1,6 +1,5 @@
 plugins {
     id("fabric-loom") version "1.10-SNAPSHOT"
-    id("maven-publish")
 }
 
 version = project.property("version")!!
@@ -30,14 +29,11 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${project.property("fabric_loader_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
 
+    implementation(project(":api"))
     implementation(project(":common"))
 }
 
 tasks.processResources {
-    inputs.property("version", project.version)
-    inputs.property("minecraft_version", project.property("minecraft_version"))
-    inputs.property("loader_version", project.property("loader_version"))
-
     filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
@@ -61,17 +57,4 @@ java {
     }
 
     withSourcesJar()
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            artifactId = "treasury-fabric"
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        // add publish repos here
-    }
 }

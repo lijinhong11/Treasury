@@ -1,34 +1,24 @@
 plugins {
     id("java")
-    id("maven-publish")
+    id("fabric-loom") version "1.10-SNAPSHOT"
 }
 
-group = "io.github.lijinhong11.treasury"
-version = project.properties["version"] as String
+group = "io.github.lijinhong11"
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
+    mappings(loom.officialMojangMappings())
+
+    implementation(project(":api"))
+
+    compileOnly("net.luckperms:api:5.4")
 }
 
 tasks.test {
     useJUnitPlatform()
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            artifactId = "treasury-fabric"
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        // add publish repos here
-    }
 }
