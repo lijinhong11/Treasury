@@ -3,11 +3,13 @@ package io.github.lijinhong11.treasury.neoforge;
 import com.google.gson.Gson;
 import io.github.lijinhong11.treasury.Treasury;
 import io.github.lijinhong11.treasury.TreasuryConfigImpl;
+import io.github.lijinhong11.treasury.command.TreasuryCommand;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
 import java.io.IOException;
@@ -42,6 +44,11 @@ public class TreasuryNeoForge {
     public static void onClientSetup(FMLClientSetupEvent event) {
         init();
         LOGGER.info("Initialized Treasury");
+    }
+
+    @SubscribeEvent
+    public static void onRegisterCommands(RegisterCommandsEvent event) {
+        event.getDispatcher().register(TreasuryCommand.getForRegistration());
     }
 
     private static void init() {

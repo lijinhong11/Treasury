@@ -11,8 +11,7 @@ pluginManagement {
 rootProject.name = "Treasury"
 
 include("api")
+include("common")
 include("neoforge")
 include("fabric")
 include("forge")
-
-include("common")

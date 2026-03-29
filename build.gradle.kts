@@ -5,14 +5,19 @@ plugins {
 group = "io.github.lijinhong11"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+subprojects {
+    apply {
+        repositories {
+            maven("https://maven.fabricmc.net")
+            maven("https://maven.latvian.dev/releases")
+            maven("https://jitpack.io")
+            maven("https://maven.architectury.dev/")
+            mavenCentral()
+        }
+    }
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {

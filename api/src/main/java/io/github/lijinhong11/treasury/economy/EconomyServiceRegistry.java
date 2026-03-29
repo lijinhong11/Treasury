@@ -1,8 +1,8 @@
-package io.github.lijinhong11.treasury;
+package io.github.lijinhong11.treasury.economy;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
+import io.github.lijinhong11.treasury.Treasury;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class EconomyServiceRegistry {
@@ -79,8 +79,8 @@ public final class EconomyServiceRegistry {
         return providers.get(name);
     }
 
-    public Collection<EconomyProvider> getAll() {
-        return providers.values();
+    public List<EconomyProvider> getAll() {
+        return List.copyOf(providers.values());
     }
 
     public boolean isRegistered(String name) {

@@ -3,7 +3,9 @@ package io.github.lijinhong11.treasury.forge;
 import com.google.gson.Gson;
 import io.github.lijinhong11.treasury.Treasury;
 import io.github.lijinhong11.treasury.TreasuryConfigImpl;
+import io.github.lijinhong11.treasury.command.TreasuryCommand;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,12 +41,18 @@ public class TreasuryForge {
     }
 
     @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
+    public void onClientSetup(FMLClientSetupEvent event) {
         init();
         LOGGER.info("Initialized Treasury");
     }
 
-    private static void init() {
+
+    @SubscribeEvent
+    public static void onRegisterCommands(RegisterCommandsEvent event) {
+        event.getDispatcher().register(TreasuryCommand.getForRegistration());
+    }
+
+    private void init() {
         try {
             if (Files.notExists(CONFIG_PATH)) {
                 Files.writeString(

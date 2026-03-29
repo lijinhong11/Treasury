@@ -3,8 +3,10 @@ package io.github.lijinhong11.treasury.fabric;
 import com.google.gson.Gson;
 import io.github.lijinhong11.treasury.Treasury;
 import io.github.lijinhong11.treasury.TreasuryConfigImpl;
-import io.github.lijinhong11.treasury.EconomyProvider;
+import io.github.lijinhong11.treasury.command.TreasuryCommand;
+import io.github.lijinhong11.treasury.economy.EconomyProvider;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.IOException;
@@ -55,5 +57,7 @@ public class TreasuryFabric implements ModInitializer {
         if (!Treasury.economy().hasPrimary()) {
             Treasury.logger().info("Cannot found primary economy! Did you install any economy implementation?");
         }
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(TreasuryCommand.getForRegistration()));
     }
 }

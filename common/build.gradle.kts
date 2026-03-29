@@ -16,9 +16,5 @@ dependencies {
 
     implementation(project(":api"))
 
-    compileOnly("net.luckperms:api:5.4")
-}
-
-tasks.test {
-    useJUnitPlatform()
+    api("dev.latvian.mods:kubejs-fabric:${project.property("kubejs_version")}")
 }

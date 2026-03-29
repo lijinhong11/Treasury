@@ -1,10 +1,11 @@
-package io.github.lijinhong11.treasury;
+package io.github.lijinhong11.treasury.economy;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
- * Represents a economy system implementation.
+ * Represents an economy system implementation.
  */
 public interface EconomyProvider {
     /**
@@ -22,11 +23,67 @@ public interface EconomyProvider {
     String getName();
 
     /**
-     * Returns true if the given implementation supports banks.
+     * Returns the default currency exposed by this provider.
+     * <p>
+     * Legacy single-currency implementations do not need to override this.
      *
-     * @return true if banks are supported
+     * @return default currency
      */
-    boolean supportBank();
+    default Currency defaultCurrency() {
+        return Currency.of("default", currencyNameSingular(), currencyNamePlural());
+    }
+
+    /**
+     * Returns all currencies exposed by this provider.
+     * <p>
+     * Legacy single-currency implementations do not need to override this.
+     *
+     * @return supported currencies
+     */
+    default Collection<Currency> currencies() {
+        return List.of(defaultCurrency());
+    }
+
+    /**
+     * Gets a currency by key.
+     *
+     * @param key currency key
+     * @return matched currency, or null if not found
+     */
+    default Currency getCurrency(String key) {
+        if (key == null || key.isBlank()) {
+            return null;
+        }
+
+        for (Currency currency : currencies()) {
+            if (currency.is(key)) {
+                return currency;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks whether the given currency is supported.
+     *
+     * @param currency currency to check
+     * @return true if supported
+     */
+    default boolean supportsCurrency(Currency currency) {
+        if (currency == null) {
+            return true;
+        }
+
+        return getCurrency(currency.key()) != null;
+    }
+
+//    /**
+//     * Returns true if the given implementation supports banks.
+//     *
+//     * @return true if banks are supported
+//     */
+//    boolean supportBank();
 
     /**
      * Format amount into a human-readable String.
@@ -37,6 +94,15 @@ public interface EconomyProvider {
     String format(double amount);
 
     /**
+     * Format amount into a human-readable String using the given currency.
+     *
+     * @param currency currency to use
+     * @param amount   amount to format
+     * @return formatted amount
+     */
+    String format(Currency currency, double amount);
+
+    /**
      * Returns plural currency name.
      *
      * @return plural currency name
@@ -44,11 +110,39 @@ public interface EconomyProvider {
     String currencyNamePlural();
 
     /**
+     * Returns plural currency name for the given currency.
+     *
+     * @param currency currency to query
+     * @return plural currency name
+     */
+    default String currencyNamePlural(Currency currency) {
+        if (!supportsCurrency(currency)) {
+            return currencyNamePlural();
+        }
+
+        return currency == null ? currencyNamePlural() : currency.pluralName();
+    }
+
+    /**
      * Returns singular currency name.
      *
      * @return singular currency name
      */
     String currencyNameSingular();
+
+    /**
+     * Returns singular currency name for the given currency.
+     *
+     * @param currency currency to query
+     * @return singular currency name
+     */
+    default String currencyNameSingular(Currency currency) {
+        if (!supportsCurrency(currency)) {
+            return currencyNameSingular();
+        }
+
+        return currency == null ? currencyNameSingular() : currency.singularName();
+    }
 
     /**
      * Checks if player account exists.
@@ -75,12 +169,30 @@ public interface EconomyProvider {
     double getBalance(UUID player);
 
     /**
+     * Gets player balance for the given currency.
+     *
+     * @param player   player uuid
+     * @param currency currency to query
+     * @return balance
+     */
+    double getBalance(UUID player, Currency currency);
+
+    /**
      * Gets player balance.
      *
      * @param player player name
      * @return balance
      */
     double getBalance(String player);
+
+    /**
+     * Gets player balance for the given currency.
+     *
+     * @param player   player name
+     * @param currency currency to query
+     * @return balance
+     */
+    double getBalance(String player, Currency currency);
 
     /**
      * Sets player balance.
@@ -91,6 +203,15 @@ public interface EconomyProvider {
     void setBalance(UUID player, double amount);
 
     /**
+     * Sets player balance for the given currency.
+     *
+     * @param player   player uuid
+     * @param currency currency to use
+     * @param amount   new balance
+     */
+    void setBalance(UUID player, Currency currency, double amount);
+
+    /**
      * Sets player balance.
      *
      * @param player player name
@@ -99,38 +220,89 @@ public interface EconomyProvider {
     void setBalance(String player, double amount);
 
     /**
+     * Sets player balance for the given currency.
+     *
+     * @param player   player name
+     * @param currency currency to use
+     * @param amount   new balance
+     */
+    void setBalance(String player, Currency currency, double amount);
+
+    /**
      * Adds money to player account.
      *
      * @param player player uuid
      * @param amount amount to add
+     * @return response about the deposit
      */
-    void deposit(UUID player, double amount);
+    EconomyResponse deposit(UUID player, double amount);
+
+    /**
+     * Adds money to player account using the given currency.
+     *
+     * @param player   player uuid
+     * @param currency currency to use
+     * @param amount   amount to add
+     * @return response about the deposit
+     */
+    EconomyResponse deposit(UUID player, Currency currency, double amount);
 
     /**
      * Adds money to player account.
      *
      * @param player player name
      * @param amount amount to add
+     * @return response about the deposit
      */
-    void deposit(String player, double amount);
+    EconomyResponse deposit(String player, double amount);
+
+    /**
+     * Adds money to player account using the given currency.
+     *
+     * @param player   player name
+     * @param currency currency to use
+     * @param amount   amount to add
+     * @return response about the deposit
+     */
+    EconomyResponse deposit(String player, Currency currency, double amount);
 
     /**
      * Removes money from player account.
      *
      * @param player player uuid
      * @param amount amount to remove
-     * @return success
+     * @return response about the withdrawal
      */
-    boolean withdraw(UUID player, double amount);
+    EconomyResponse withdraw(UUID player, double amount);
+
+    /**
+     * Removes money from player account using the given currency.
+     *
+     * @param player   player uuid
+     * @param currency currency to use
+     * @param amount   amount to remove
+     * @return response about the withdrawal
+     */
+    EconomyResponse withdraw(UUID player, Currency currency, double amount);
 
     /**
      * Removes money from player account.
      *
      * @param player player name
      * @param amount amount to remove
-     * @return success
+     * @return response about the withdrawal
      */
-    boolean withdraw(String player, double amount);
+    EconomyResponse withdraw(String player, double amount);
+
+    /**
+     * Removes money from player account using the given currency.
+     *
+     * @param player   player name
+     * @param currency currency to use
+     * @param amount   amount to remove
+     * @return response about the withdrawal
+     */
+    EconomyResponse withdraw(String player, Currency currency, double amount);
 
     /**
      * Checks if player has at least amount.
@@ -142,6 +314,16 @@ public interface EconomyProvider {
     boolean has(UUID player, double amount);
 
     /**
+     * Checks if player has at least amount in the given currency.
+     *
+     * @param player   player uuid
+     * @param currency currency to query
+     * @param amount   amount required
+     * @return true if player has enough
+     */
+    boolean has(UUID player, Currency currency, double amount);
+
+    /**
      * Checks if player has at least amount.
      *
      * @param player player name
@@ -151,31 +333,66 @@ public interface EconomyProvider {
     boolean has(String player, double amount);
 
     /**
-     * Transfers money between two players.
+     * Checks if player has at least amount in the given currency.
      *
-     * @param from sender uuid
-     * @param to receiver uuid
-     * @param amount amount
-     * @return true if the transfer is successful
+     * @param player   player name
+     * @param currency currency to query
+     * @param amount   amount required
+     * @return true if player has enough
      */
-    boolean transfer(UUID from, UUID to, double amount);
+    boolean has(String player, Currency currency, double amount);
 
     /**
      * Transfers money between two players.
      *
-     * @param from sender name
-     * @param to receiver name
+     * @param from   sender uuid
+     * @param to     receiver uuid
      * @param amount amount
-     * @return true if the transfer is successful
+     * @return response about the transfer
      */
-    boolean transfer(String from, String to, double amount);
+    EconomyResponse transfer(UUID from, UUID to, double amount);
 
     /**
+     * Transfers money between two players using the given currency.
+     *
+     * @param from     sender uuid
+     * @param to       receiver uuid
+     * @param currency currency to use
+     * @param amount   amount
+     * @return response about the transfer
+     */
+    EconomyResponse transfer(UUID from, UUID to, Currency currency, double amount);
+
+    /**
+     * Transfers money between two players.
+     *
+     * @param from   sender name
+     * @param to     receiver name
+     * @param amount amount
+     * @return response about the transfer
+     */
+    EconomyResponse transfer(String from, String to, double amount);
+
+    /**
+     * Transfers money between two players using the given currency.
+     *
+     * @param from     sender name
+     * @param to       receiver name
+     * @param currency currency to use
+     * @param amount   amount
+     * @return response about the transfer
+     */
+    EconomyResponse transfer(String from, String to, Currency currency, double amount);
+}
+
+    //BANK SECTION, CURRENTLY NOT USED
+
+    /*
      * Checks if a bank with the given name exists.
      *
      * @param bank name of the bank
      * @return true if the bank exists
-     */
+
     boolean hasBank(String bank);
 
     /**
@@ -187,7 +404,7 @@ public interface EconomyProvider {
      * @param bank name of the bank to create
      * @param owner UUID of the bank owner
      * @return true if the bank was successfully created
-     */
+
     boolean createBank(String bank, UUID owner);
 
     /**
@@ -199,7 +416,7 @@ public interface EconomyProvider {
      * @param bank name of the bank to create
      * @param owner name of the bank owner
      * @return true if the bank was successfully created
-     */
+
     boolean createBank(String bank, String owner);
 
     /**
@@ -210,7 +427,7 @@ public interface EconomyProvider {
      *
      * @param bank name of the bank to delete
      * @return true if the bank was successfully deleted
-     */
+
     boolean deleteBank(String bank);
 
     /**
@@ -221,7 +438,7 @@ public interface EconomyProvider {
      *
      * @param bank name of the bank
      * @return balance of the bank
-     */
+
     double bankBalance(String bank);
 
     /**
@@ -235,7 +452,7 @@ public interface EconomyProvider {
      *
      * @param bank name of the bank
      * @return balance of the bank
-     */
+
     boolean bankHas(String bank, double amount);
 
     /**
@@ -246,7 +463,7 @@ public interface EconomyProvider {
      *
      * @param bank name of the bank
      * @param amount amount to deposit
-     */
+
     void bankDeposit(String bank, double amount);
 
     /**
@@ -258,7 +475,7 @@ public interface EconomyProvider {
      * @param bank name of the bank
      * @param amount amount to withdraw
      * @return true if the withdrawal was successful
-     */
+
     boolean bankWithdraw(String bank, double amount);
 
     /**
@@ -268,7 +485,7 @@ public interface EconomyProvider {
      * does not exist, this method should return an empty collection.
      *
      * @return a collection of all banks
-     */
+
     Collection<String> banks();
 
     /**
@@ -280,7 +497,7 @@ public interface EconomyProvider {
      * @param bank name of the bank
      * @param player UUID of the player
      * @return true if the player is the owner of the bank
-     */
+
     boolean isBankOwner(String bank, UUID player);
 
     /**
@@ -294,7 +511,7 @@ public interface EconomyProvider {
      * @param bank name of the bank
      * @param player UUID of the player
      * @return true if the player is a member of the bank
-     */
+
     boolean isBankMember(String bank, UUID player);
 
     /**
@@ -310,7 +527,7 @@ public interface EconomyProvider {
      * @param bank name of the bank
      * @param player UUID of the player to add
      * @return true if the player was successfully added as a member
-     */
+
     boolean bankAddMember(String bank, UUID player);
 
     /**
@@ -325,7 +542,7 @@ public interface EconomyProvider {
      * @param bank name of the bank
      * @param player UUID of the player to remove
      * @return true if the player was successfully removed
-     */
+
     boolean bankRemoveMember(String bank, UUID player);
 
     /**
@@ -336,36 +553,8 @@ public interface EconomyProvider {
      *
      * @param bank name of the bank
      * @return collection of bank member UUIDs
-     */
+
     Collection<UUID> bankMembers(String bank);
 
-    /**
-     * Creates a check issued by the specified player.
-     * <br>
-     * The check represents a transferable amount of currency that can
-     * later be redeemed by another player.
-     * <br>
-     * Implementations may immediately withdraw the amount from the issuer
-     * or defer validation until redemption depending on the economy design.
-     *
-     * @param issuer UUID of the check issuer
-     * @param amount value of the check
-     * @return created check
-     */
-    EconomyCheck createCheck(UUID issuer, double amount);
 
-    /**
-     * Checks if the specified check is valid.
-     * <br>
-     * This may include checks such as:
-     * <ul>
-     *     <li>Whether the check exists</li>
-     *     <li>Whether it has already been redeemed</li>
-     *     <li>Whether it has expired</li>
-     * </ul>
-     *
-     * @param check check to validate
-     * @return true if the check is valid
      */
-    boolean isCheckValid(EconomyCheck check);
-}

@@ -31,6 +31,8 @@ dependencies {
 
     implementation(project(":api"))
     implementation(project(":common"))
+
+    api("dev.latvian.mods:kubejs-fabric:${project.property("kubejs_version")}")
 }
 
 tasks.processResources {
