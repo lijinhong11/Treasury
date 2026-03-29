@@ -36,7 +36,7 @@ public interface EconomyProvider {
     /**
      * Returns all currencies exposed by this provider.
      * <p>
-     * Legacy single-currency implementations do not need to override this.
+     * Single-currency implementations do not need to override this.
      *
      * @return supported currencies
      */

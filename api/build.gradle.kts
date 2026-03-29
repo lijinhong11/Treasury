@@ -19,6 +19,11 @@ repositories {
 dependencies {
 }
 
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
 mavenPublishing {
     publishToMavenCentral(automaticRelease = true, validateDeployment = DeploymentValidation.PUBLISHED)
 
