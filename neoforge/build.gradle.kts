@@ -1,8 +1,7 @@
 plugins {
-    `java-library`
-    eclipse
+    java
     idea
-    id("com.gradleup.shadow") version "9.4.1"
+    id("com.gradleup.shadow")
     id("net.neoforged.moddev") version "2.0.141"
 }
 
@@ -67,24 +66,37 @@ sourceSets {
 }
 
 dependencies {
-    implementation("net.neoforged:neoforge:${property("neo_version")}")
+    implementation("net.neoforged:neoforge:${project.property("neo_version")}")
 
     implementation(project(":api"))
     implementation(project(":common"))
 
-    compileOnly("dev.latvian.mods:kubejs-neoforge:${property("kubejs_neoforge_version")}")
+    shadow(project(":api"))
+    shadow(project(":common"))
 }
 
 tasks.processResources {
-    inputs.properties(project.properties)
+    val prop = mapOf(
+        "version" to version,
+        "neoforge_version_range" to "[20,)",
+        "description" to description
+    )
+
+    inputs.properties(prop)
 
     filesMatching("META-INF/mods.toml") {
-        expand(project.properties)
+        expand(prop)
     }
 }
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
+}
+
+tasks.shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    configurations = listOf(project.configurations.shadow.get())
 }
 
 idea {

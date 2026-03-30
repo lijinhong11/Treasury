@@ -1,6 +1,6 @@
 plugins {
-    id("java")
-    id("fabric-loom") version "1.10-SNAPSHOT"
+    java
+    id("fabric-loom")
 }
 
 group = "io.github.lijinhong11"
@@ -19,6 +19,4 @@ dependencies {
     mappings(loom.officialMojangMappings())
 
     implementation(project(":api"))
-
-    api("dev.latvian.mods:kubejs-fabric:${project.property("kubejs_version")}")
 }

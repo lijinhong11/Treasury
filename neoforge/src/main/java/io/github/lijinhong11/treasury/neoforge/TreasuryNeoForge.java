@@ -7,6 +7,7 @@ import io.github.lijinhong11.treasury.command.TreasuryCommand;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -35,13 +36,7 @@ public class TreasuryNeoForge {
     }
 
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        init();
-        LOGGER.info("Initialized Treasury");
-    }
-
-    @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
+    public void onStartup(FMLCommonSetupEvent event) {
         init();
         LOGGER.info("Initialized Treasury");
     }

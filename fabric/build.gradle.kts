@@ -1,5 +1,8 @@
 plugins {
-    id("fabric-loom") version "1.10-SNAPSHOT"
+    java
+    idea
+    id("com.gradleup.shadow")
+    id("fabric-loom")
 }
 
 version = project.property("version")!!
@@ -19,10 +22,6 @@ loom {
     }
 }
 
-repositories {
-    // Add repositories here if you depend on other mods
-}
-
 dependencies {
     minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
     mappings(loom.officialMojangMappings())
@@ -32,7 +31,8 @@ dependencies {
     implementation(project(":api"))
     implementation(project(":common"))
 
-    api("dev.latvian.mods:kubejs-fabric:${project.property("kubejs_version")}")
+    shadow(project(":api"))
+    shadow(project(":common"))
 }
 
 tasks.processResources {
@@ -49,6 +49,12 @@ tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 
     options.release.set(targetJavaVersion)
+}
+
+tasks.shadowJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    configurations = listOf(project.configurations.shadow.get())
 }
 
 java {
