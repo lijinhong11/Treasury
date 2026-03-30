@@ -1,25 +1,21 @@
 # Treasury
 A simple economy & points API for Minecraft mods.
-Inspired by the Bukkit [Vault](https://github.com/MilkBowl/Vault) plugin.
-
-## Introduction
+Inspired by the Bukkit [Vault](https://github.com/MilkBowl/Vault) plugin.  
 It is **not an economy implementation**.  
-Instead, other mods provide implementations, and Treasury acts as a bridge layer.
+Instead, like Vault, other mods provide implementations, and Treasury acts as a bridge layer.
 
 ## What can it do?
-* Access server economy (multi-currency supported)
+* Hold server economy (multi-currency supported)
 * Access points / premium currency
-* Support multiple economy providers
-* Automatically select a primary economy
-* Allow mods to interact without depending on specific implementations
+* Allow mods to interact economy system without depending on specific implementations
 
 ## How it works
 Treasury defines two main provider types:
 
-* `EconomyProvider` → normal currency
-* `PointsProvider` → points / premium currency
+* `EconomyProvider` for normal currency
+* `PointsProvider` for points (most for premium currency)
 
-Other mods register their implementation, and consumers retrieve them through the API.
+Other mods register their implementation, and other developers who use the API can get them.
 
 ## Registry
 ### Economy
@@ -99,9 +95,11 @@ if (Treasury.points().isRegistered()) {
 Required permission level: `2`
 
 ## Requirements
-* Fabric: `1.20.1+`
-* NeoForge: `1.20.4+`
-* Java: `17`
+* Fabric: Minecraft `1.20.1+`, any Fabric version, Fabric API is not required
+* NeoForge: Minecraft `1.20.4+`, any NeoForge version
+* Java: `17` or higher
+
+*Don't ask for Forge!*
 
 ## Build
 ```bash

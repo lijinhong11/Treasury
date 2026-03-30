@@ -19,10 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TreasuryCommand {
-    private static final SimpleCommandExceptionType NO_PRIMARY_ECONOMY =
-            new SimpleCommandExceptionType(Component.literal("No primary economy provider is registered"));
-    private static final SimpleCommandExceptionType NO_POINTS_PROVIDER =
-            new SimpleCommandExceptionType(Component.literal("No points provider is registered"));
     private static final SimpleCommandExceptionType NO_TARGETS =
             new SimpleCommandExceptionType(Component.literal("No matching player profile was found"));
 
