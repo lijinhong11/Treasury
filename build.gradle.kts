@@ -21,7 +21,3 @@ subprojects {
 
 dependencies {
 }
-
-tasks.test {
-    useJUnitPlatform()
-}

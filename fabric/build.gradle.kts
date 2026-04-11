@@ -32,7 +32,7 @@ dependencies {
     implementation(project(":common"))
 
     shadow(project(":api"))
-    shadow(project(":common"))
+    shadow(project(":common", configuration = "namedElements"))
 }
 
 tasks.processResources {
@@ -51,6 +51,10 @@ tasks.withType<JavaCompile>().configureEach {
     options.release.set(targetJavaVersion)
 }
 
+tasks.remapJar {
+    dependsOn(tasks.shadowJar)
+}
+
 tasks.shadowJar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -63,6 +67,4 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
     }
-
-    withSourcesJar()
 }

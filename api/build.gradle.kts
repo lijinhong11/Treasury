@@ -72,3 +72,7 @@ mavenPublishing {
         sourcesJar = SourcesJar.Sources()
     )
 }
+
+signing {
+    useGpgCmd()
+}

@@ -20,3 +20,11 @@ dependencies {
 
     implementation(project(":api"))
 }
+
+tasks.remapSourcesJar {
+    enabled = false
+}
+
+tasks.remapJar {
+    enabled = false
+}

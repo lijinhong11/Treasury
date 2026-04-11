@@ -15,10 +15,6 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
-repositories {
-    mavenLocal()
-}
-
 neoForge {
     version = property("neo_version") as String
 
@@ -72,7 +68,7 @@ dependencies {
     implementation(project(":common"))
 
     shadow(project(":api"))
-    shadow(project(":common"))
+    shadow(project(":common", configuration = "namedElements"))
 }
 
 tasks.processResources {
@@ -97,6 +93,8 @@ tasks.shadowJar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     configurations = listOf(project.configurations.shadow.get())
+
+    archiveClassifier.set("")
 }
 
 idea {

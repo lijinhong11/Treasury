@@ -1,8 +1,10 @@
 # Treasury
-A simple economy & points API for Minecraft mods.
+A simple economy & points API for Minecraft mods.  
 Inspired by the Bukkit [Vault](https://github.com/MilkBowl/Vault) plugin.  
 It is **not an economy implementation**.  
-Instead, like Vault, other mods provide implementations, and Treasury acts as a bridge layer.
+Instead, like Vault, other mods provide economy/points implementations, and Treasury acts as a bridge layer.
+
+***We need a good logo lmao, my art sucks —— the author***
 
 ## What can it do?
 * Hold server economy (multi-currency supported)
@@ -16,6 +18,7 @@ Treasury defines two main provider types:
 * `PointsProvider` for points (most for premium currency)
 
 Other mods register their implementation, and other developers who use the API can get them.
+See more below.
 
 ## Registry
 ### Economy
