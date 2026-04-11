@@ -26,13 +26,11 @@ public interface EconomyProvider {
     /**
      * Returns the default currency exposed by this provider.
      * <p>
-     * Legacy single-currency implementations do not need to override this.
+     * Legacy single-currency implementations just only need to provide a simple currency but named <code>default</code>
      *
      * @return default currency
      */
-    default Currency defaultCurrency() {
-        return new Currency("default", currencyNameSingular(), currencyNamePlural());
-    }
+    Currency defaultCurrency();
 
     /**
      * Returns all currencies exposed by this provider.
@@ -56,6 +54,10 @@ public interface EconomyProvider {
     default Currency getCurrency(String key) {
         if (key == null || key.isBlank()) {
             return null;
+        }
+
+        if ("default".equals(key)) {
+            return defaultCurrency();
         }
 
         for (Currency currency : currencies()) {
