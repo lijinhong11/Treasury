@@ -72,10 +72,6 @@ public record Currency(String id, String singularName, String pluralName, BigDec
         return Math.abs(amount) == 1D ? singularName : pluralName;
     }
 
-    public boolean is(String id) {
-        return this.id.equals(Objects.requireNonNull(id, "currency id mustn't be null").trim());
-    }
-
     private static String requireText(String value, String message) {
         Objects.requireNonNull(value, message);
 
@@ -101,6 +97,8 @@ public record Currency(String id, String singularName, String pluralName, BigDec
         return id.equals(currency.id) &&
                 singularName.equals(currency.singularName) &&
                 pluralName.equals(currency.pluralName) &&
-                startingBalance.equals(currency.startingBalance);
+                minBalance.equals(currency.maxBalance) &&
+                startingBalance.equals(currency.startingBalance) &&
+                maxBalance.equals(currency.maxBalance);
     }
 }
