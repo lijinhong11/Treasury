@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * @param amount amount involved in the operation
  * @param balance resulting balance after the operation
  * @param result operation result
- * @param errorMessage optional error message when the operation fails
+ * @param errorMessage error message when the operation fails (nullable)
  */
 public record EconomyResponse(BigDecimal amount, BigDecimal balance, Result result, String errorMessage) {
     /**

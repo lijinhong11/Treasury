@@ -26,9 +26,10 @@ public interface EconomyProvider {
     /**
      * Returns the default currency exposed by this provider.
      * <p>
-     * Legacy single-currency implementations just only need to provide a simple currency but named <code>default</code>
+     * Legacy single-currency implementations just only need to provide a simple currency,
+     * and its id must be <code>default</code>
      *
-     * @return default currency
+     * @return the default currency
      */
     Currency defaultCurrency();
 

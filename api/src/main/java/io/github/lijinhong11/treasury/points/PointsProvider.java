@@ -3,10 +3,10 @@ package io.github.lijinhong11.treasury.points;
 import java.util.UUID;
 
 /**
- * <p>
- *     Represents a points system implementation.<br>
- *     Points is usually used as an advanced currency for servers.
- * </p>
+ * Represents a points system implementation.<br>
+ * Points is usually used as an advanced currency for servers.<br>
+ *
+ * Maximum balance is {@link Integer#MAX_VALUE}
  */
 public interface PointsProvider {
     /**

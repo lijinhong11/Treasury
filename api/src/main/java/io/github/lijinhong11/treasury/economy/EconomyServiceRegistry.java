@@ -10,6 +10,10 @@ public final class EconomyServiceRegistry {
 
     private volatile EconomyProvider primary;
 
+    /**
+     * Register an economy provider
+     * @param provider the economy provider
+     */
     public void register(EconomyProvider provider) {
         Objects.requireNonNull(provider, "economy provider mustn't be null");
 
@@ -45,6 +49,12 @@ public final class EconomyServiceRegistry {
         }
     }
 
+    /**
+     * Set an economy provider as the primary provider.<br>
+     * <b>NOTE:
+     * Except for special situations, it is generally not recommended to use!</b>
+     * @param name the economy provider's name
+     */
     public void setPrimary(String name) {
         if (name == null || name.isBlank()) {
             return;
@@ -63,6 +73,10 @@ public final class EconomyServiceRegistry {
         this.primary = provider;
     }
 
+    /**
+     * Gets the primary economy provider
+     * @return the primary economy provider
+     */
     public EconomyProvider getPrimary() {
         if (primary == null) {
             throw new IllegalStateException("No economy provider registered");
@@ -71,18 +85,36 @@ public final class EconomyServiceRegistry {
         return primary;
     }
 
+    /**
+     * Check the primary economy provider has been set
+     * @return whether the primary economy provider has been set
+     */
     public boolean hasPrimary() {
         return primary != null;
     }
 
+    /**
+     * Gets the economy provider by its name
+     * @param name the economy provider's name
+     * @return the economy provider or null if not found
+     */
     public EconomyProvider getByName(String name) {
         return providers.get(name);
     }
 
+    /**
+     * Gets all the economy providers
+     * @return all the economy providers
+     */
     public List<EconomyProvider> getAll() {
         return List.copyOf(providers.values());
     }
 
+    /**
+     * Check an economy provider with that name is existed
+     * @param name the economy provider's name
+     * @return whether an economy provider with that name is existed
+     */
     public boolean isRegistered(String name) {
         return providers.containsKey(name);
     }

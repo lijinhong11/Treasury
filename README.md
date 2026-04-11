@@ -6,6 +6,11 @@ Instead, like Vault, other mods provide economy/points implementations, and Trea
 
 ***We need a good logo lmao, my art sucks —— the author***
 
+## Roadmap
+1. Make the first one implementation
+2. Improves
+3. Dock to Vault in hybrid servers
+
 ## What can it do?
 * Hold server economy (multi-currency supported)
 * Access points / premium currency

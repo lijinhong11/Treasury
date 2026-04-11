@@ -4,27 +4,56 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * An immutable currency definition used by economy providers.
+ * An immutable currency definition used by economy providers.<br>
+ * Default maximum balance is {@link Long#MAX_VALUE} <br>
+ * Mods shouldn't try to pass it!
  */
-public record Currency(String id, String singularName, String pluralName, BigDecimal startingBalance) {
+public record Currency(String id, String singularName, String pluralName, BigDecimal minBalance, BigDecimal startingBalance, BigDecimal maxBalance) {
     /**
-     * An immutable currency definition used by economy providers.
+     * Create a currency
      *
      * @param id unique currency id inside a provider
      * @param singularName singular display name
      * @param pluralName plural display name
      */
     public Currency(String id, String singularName, String pluralName) {
-        this(id, singularName, pluralName, new BigDecimal(0));
+        this(id, singularName, pluralName, new BigDecimal(0), new BigDecimal(0), new BigDecimal(Long.MAX_VALUE));
     }
 
     /**
-     * An immutable currency definition used by economy providers.
+     * Create a currency
      *
      * @param id unique currency id inside a provider
      * @param singularName singular display name
      * @param pluralName plural display name
+     * @param minBalance minimum balance
+     */
+    public Currency(String id, String singularName, String pluralName, BigDecimal minBalance) {
+        this(id, singularName, pluralName, minBalance, new BigDecimal(0), new BigDecimal(Long.MAX_VALUE));
+    }
+
+    /**
+     * Create a currency
+     *
+     * @param id unique currency id inside a provider
+     * @param singularName singular display name
+     * @param pluralName plural display name
+     * @param minBalance minimum balance
      * @param startingBalance the balance when new players enter the game
+     */
+    public Currency(String id, String singularName, String pluralName, BigDecimal minBalance, BigDecimal startingBalance) {
+        this(id, singularName, pluralName, minBalance, startingBalance, new BigDecimal(Long.MAX_VALUE));
+    }
+
+    /**
+     * Create a currency
+     *
+     * @param id unique currency id inside a provider
+     * @param singularName singular display name
+     * @param pluralName plural display name
+     * @param minBalance minimum balance
+     * @param startingBalance the balance when new players enter the game
+     * @param maxBalance maximum balance
      */
     public Currency {
         id = requireText(id, "currency id mustn't be blank");
