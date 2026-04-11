@@ -62,7 +62,7 @@ public interface EconomyProvider {
         }
 
         for (Currency currency : currencies()) {
-            if (currency.is(key)) {
+            if (currency.id().equals(key)) {
                 return currency;
             }
         }
