@@ -6,6 +6,7 @@ plugins {
 }
 
 group = property("maven_group")!!
+version = property("version")!!
 
 base {
     archivesName.set("Treasury-NeoForge")

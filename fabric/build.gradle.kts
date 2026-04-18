@@ -1,3 +1,7 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.io.FileReader
+import java.util.Properties
+
 plugins {
     java
     idea
@@ -12,8 +16,19 @@ base {
     archivesName.set("Treasury-Fabric")
 }
 
+sourceSets {
+    create("v26_1") {
+        resources.srcDirs("src/v26_1/resources")
+
+        compileClasspath += main.get().output
+        runtimeClasspath += main.get().output
+    }
+}
+
 loom {
     splitEnvironmentSourceSets()
+
+    enableTransitiveAccessWideners = false
 
     mods {
         create("fabric") {
@@ -35,14 +50,6 @@ dependencies {
     shadow(project(":common", configuration = "namedElements"))
 }
 
-tasks.processResources {
-    filteringCharset = "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand(project.properties)
-    }
-}
-
 val targetJavaVersion = 17
 
 tasks.withType<JavaCompile>().configureEach {
@@ -51,14 +58,56 @@ tasks.withType<JavaCompile>().configureEach {
     options.release.set(targetJavaVersion)
 }
 
+tasks.build {
+    dependsOn("remapJar", "unmapJar")
+}
+
 tasks.remapJar {
-    dependsOn(tasks.shadowJar)
+    dependsOn("shadowJar")
+
+    archiveBaseName = "Treasury-Fabric-1.20.1~1.21.11"
+}
+
+tasks.register<ShadowJar>("unmapJar") {
+    dependsOn("processResourcesUnRemap")
+
+    configurations = listOf(project.configurations.shadow.get())
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from(layout.buildDirectory.dir("processedResources/unremap"))
+
+    archiveBaseName = "Treasury-Fabric-26.X+"
 }
 
 tasks.shadowJar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
     configurations = listOf(project.configurations.shadow.get())
+
+    archiveClassifier = ""
+}
+
+tasks.processResources {
+    filteringCharset = "UTF-8"
+
+    from(sourceSets.main.get().resources)
+
+    filesMatching("fabric.mod.json") {
+        expand(
+            project.properties
+        )
+    }
+}
+
+tasks.register<ProcessResources>("processResourcesUnRemap") {
+    from("src/v26_1/resources")
+
+    filesMatching("fabric.mod.json") {
+        expand(
+            project.properties
+        )
+    }
+
+    into(layout.buildDirectory.dir("processedResources/unremap"))
 }
 
 java {

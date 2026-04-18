@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "treasury",
+  "version": "${version}",
+
+  "name": "Treasury-Fabric",
+  "description": "${description}",
+  "authors": ["mmmjjkx"],
+  "contact": {
+    "github": "https://github.com/lijinhong11/Treasury"
+  },
+
+  "license": "GPL-3.0",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.lijinhong11.treasury.fabric.TreasuryFabric"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.11.0",
+    "fabric-api": "*",
+    "minecraft": ">=26.1"
+  }
+}
