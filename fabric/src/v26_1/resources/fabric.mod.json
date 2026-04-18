@@ -3,7 +3,7 @@
   "id": "treasury",
   "version": "${version}",
 
-  "name": "Treasury-Fabric",
+  "name": "Treasury",
   "description": "${description}",
   "authors": ["mmmjjkx"],
   "contact": {

@@ -17,7 +17,7 @@ java {
 }
 
 neoForge {
-    version = property("neo_version") as String
+    version = property("neoforge_version") as String
 
     runs {
         create("client") {
@@ -63,7 +63,7 @@ sourceSets {
 }
 
 dependencies {
-    implementation("net.neoforged:neoforge:${project.property("neo_version")}")
+    implementation("net.neoforged:neoforge:${project.property("neoforge_version")}")
 
     implementation(project(":api"))
     implementation(project(":common"))
@@ -73,16 +73,8 @@ dependencies {
 }
 
 tasks.processResources {
-    val prop = mapOf(
-        "version" to version,
-        "neoforge_version_range" to "[20,)",
-        "description" to description
-    )
-
-    inputs.properties(prop)
-
-    filesMatching("META-INF/mods.toml") {
-        expand(prop)
+    filesMatching("META-INF/neoforge.mods.toml") {
+        expand(project.properties)
     }
 }
 

@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.util.logging.Logger;
 
 @Mod(TreasuryNeoForge.MODID)
+@Mod.EventBusSubscriber(modid = TreasuryNeoForge.MODID)
 public class TreasuryNeoForge {
     public static final String MODID = "treasury";
 
@@ -32,7 +33,6 @@ public class TreasuryNeoForge {
     private static final Logger LOGGER = Treasury.logger();
 
     public TreasuryNeoForge() {
-        NeoForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
@@ -42,7 +42,7 @@ public class TreasuryNeoForge {
     }
 
     @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
+    public void onRegisterCommands(RegisterCommandsEvent event) {
         event.getDispatcher().register(TreasuryCommand.getForRegistration());
     }
 

@@ -3,7 +3,7 @@
   "id": "treasury",
   "version": "${version}",
 
-  "name": "Treasury-Fabric",
+  "name": "Treasury",
   "description": "${description}",
   "authors": ["mmmjjkx"],
   "contact": {
@@ -23,6 +23,6 @@
   "depends": {
     "fabricloader": ">=0.11.0",
     "fabric-api": "*",
-    "minecraft": ">=1.20"
+    "minecraft": ">=1.20.1"
   }
 }

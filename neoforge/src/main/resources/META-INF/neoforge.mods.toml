@@ -1,4 +1,4 @@
-# This is an example mods.toml file. It contains the data relating to the loading mods.
+# This is an example neoforge.mods.toml file. It contains the data relating to the loading mods.
 # There are several mandatory fields (#mandatory), and many more that are optional (#optional).
 # The overall format is standard TOML format, v0.5.0.
 # Note that there are a couple of TOML lists in this file.
@@ -6,7 +6,7 @@
 # The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
 modLoader = "javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the FML version.
-loaderVersion = "${neoforge_version_range}" #mandatory
+loaderVersion = "1" #mandatory
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
 license = "GPL 3.0"
@@ -19,7 +19,7 @@ modId="treasury" #mandatory
 # The version number of the mod
 version = "${version}" #mandatory
 # A display name for the mod
-displayName = "Treasury-NeoForge" #mandatory
+displayName = "Treasury" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.neoforge.net/docs/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -73,12 +73,6 @@ side = "BOTH"
 [[dependencies."treasury"]]
 modId = "minecraft"
 type = "required"
-# This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "[1.20,)"
+versionRange = "[1.20.4,)"
 ordering = "NONE"
 side = "BOTH"
-
-# Features are specific properties of the game environment, that you may want to declare you require. This example declares
-# that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
-# stop your mod loading on the server for example.
-#openGLVersion="[3.2,)"
