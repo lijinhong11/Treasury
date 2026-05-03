@@ -10,13 +10,6 @@ import java.util.UUID;
  */
 public interface PointsProvider {
     /**
-     * Checks if points implementation is enabled.
-     *
-     * @return true if enabled
-     */
-    boolean isEnabled();
-
-    /**
      * Gets the unique name of points implementation.
      *
      * @return the unique name of the points implementation

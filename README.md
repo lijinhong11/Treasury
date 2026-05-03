@@ -1,64 +1,87 @@
 # Treasury
-A simple economy & points API for Minecraft mods.  
-Inspired by the Bukkit [Vault](https://github.com/MilkBowl/Vault) plugin.  
-It is **not an economy implementation**.  
-Instead, like Vault, other mods provide economy/points implementations, and Treasury acts as a bridge layer.
 
-***We need a good logo lmao, my art sucks —— the author***
+<img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg"><a href="https://modrinth.com/mod/treasury"></a></img>
+
+A simple economy & points API for Minecraft mods.  
+Inspired by the Bukkit Vault plugin.  
+
+Treasury **is not an economy implementation**.  
+Instead, like Vault, other mods provide implementations, and Treasury acts as a bridge layer between them.
+
+## Overview
+
+Treasury provides a unified way for mods to:
+
+- Access server economy
+- Access points / premium currency
+- Avoid hard dependencies on specific economy implementations
+
+## Architecture
+
+Treasury is designed as a **server-side abstraction layer**.
+
+- Clients never modify economy data
+- All logic is executed on the server
+- Treasury providers are part of server logic, not network layers
+
+See below:
+![flowchart](docs/flowchart.svg)
 
 ## Roadmap
-1. Make the first one implementation
-2. Improves
-3. Dock to Vault in hybrid servers
 
-## What can it do?
-* Hold server economy (multi-currency supported)
-* Access points / premium currency
-* Allow mods to interact economy system without depending on specific implementations
+1. Provide a stable first implementation
+2. Improve API and internal design
+3. Add Vault compatibility for hybrid servers
 
-## How it works
+## Features
+
+* Multi-economy provider support
+* Single points provider support
+* Automatic primary economy selection
+* Clean API for mod developers
+
+## How It Works
+
 Treasury defines two main provider types:
 
-* `EconomyProvider` for normal currency
-* `PointsProvider` for points (most for premium currency)
+* `EconomyProvider` — economy currency
+* `PointsProvider` — points / premium currency
 
-Other mods register their implementation, and other developers who use the API can get them.
-See more below.
+Implementation mods register providers, and other mods consume them through the API.
 
 ## Registry
+
 ### Economy
-* Stored in `EconomyServiceRegistry`
+
+* Managed by `EconomyServiceRegistry`
 * Supports multiple providers
 * One provider is selected as primary
 
-Selection rules:
-
-1. Using `primaryEconomy` which defined in config if specified
-2. Otherwise, use the first registered provider
-
-### Points
-* Stored in `PointsServiceRegistry`
-* Only one provider allowed
-
-Registering another provider will throw an exception.
-
-## Register Providers
-### Economy
+Regsiter:
 ```java
 Treasury.economy().register(new ExampleEconomyProvider());
 ```
 
+Selection rules:
+
+1. Use `primaryEconomy` from config if specified
+2. Otherwise, use the first registered provider
+
 ### Points
+
+* Managed by `PointsServiceRegistry`
+* Only one provider allowed
+
+Register:
 ```java
 Treasury.points().register(new ExamplePointsProvider());
 ```
 
-Notes:
-* Only one points provider allowed
-* Please register during mod initialization
+Registering a second provider will throw an exception.
 
 ### Fabric Entrypoints
-Treasury supports register providers via Fabric entrypoints:
+
+Treasury supports automatic provider loading via Fabric entrypoints:
 
 * `treasury-economy`
 * `treasury-points`
@@ -81,6 +104,7 @@ Example:
 ## Usage
 
 ### Economy
+
 ```java
 if (Treasury.economy().hasPrimary()) {
     EconomyProvider economy = Treasury.economy().getPrimary();
@@ -89,6 +113,7 @@ if (Treasury.economy().hasPrimary()) {
 ```
 
 ### Points
+
 ```java
 if (Treasury.points().isRegistered()) {
     PointsProvider points = Treasury.points().get();
@@ -97,26 +122,34 @@ if (Treasury.points().isRegistered()) {
 ```
 
 ## Commands
-* `/treasury info`
-* `/treasury balance <player>`
 
-Required permission level: `2`
+* `/treasury info`  
+   Required Permission Level: `2`
+* `/treasury balance [player]`  
+   Required Permission Level: `1`
 
 ## Requirements
-* Fabric: Minecraft `1.20.1+`, any Fabric version, Fabric API is not required
-* NeoForge: Minecraft `1.20.4+`, any NeoForge version
-* Java: `17` or higher
 
-*Don't ask for Forge!*
+* Fabric: Minecraft `1.20.1+`
+* NeoForge: Minecraft `1.20.4+`
+* Java: `17+`
 
 ## Build
+
 ```bash
 ./gradlew build
 ```
 
-## Import
+## Dependency
+
 ```kotlin
 dependencies {
     compileOnly("io.github.lijinhong11:treasury:VERSION")
 }
 ```
+
+## Notes
+
+* Treasury is API-only and does not store or manage data itself!
+* All economy logic is handled by provider implementations
+* Client-side interaction is limited to display and request forwarding

@@ -1,6 +1,7 @@
 package io.github.lijinhong11.treasury.economy;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -9,6 +10,9 @@ import java.util.Objects;
  * Mods shouldn't try to pass it!
  */
 public record Currency(String id, String singularName, String pluralName, BigDecimal minBalance, BigDecimal startingBalance, BigDecimal maxBalance) {
+    public static final BigDecimal MIN_BALANCE = BigDecimal.ZERO.setScale(3, RoundingMode.HALF_UP);
+    public static final BigDecimal MAX_BALANCE = new BigDecimal(Long.MAX_VALUE);
+
     /**
      * Create a currency
      *
@@ -29,7 +33,7 @@ public record Currency(String id, String singularName, String pluralName, BigDec
      * @param minBalance minimum balance
      */
     public Currency(String id, String singularName, String pluralName, BigDecimal minBalance) {
-        this(id, singularName, pluralName, minBalance, new BigDecimal(0), new BigDecimal(Long.MAX_VALUE));
+        this(id, singularName, pluralName, minBalance, new BigDecimal(0), MAX_BALANCE);
     }
 
     /**
@@ -42,7 +46,7 @@ public record Currency(String id, String singularName, String pluralName, BigDec
      * @param startingBalance the balance when new players enter the game
      */
     public Currency(String id, String singularName, String pluralName, BigDecimal minBalance, BigDecimal startingBalance) {
-        this(id, singularName, pluralName, minBalance, startingBalance, new BigDecimal(Long.MAX_VALUE));
+        this(id, singularName, pluralName, minBalance, startingBalance, MAX_BALANCE);
     }
 
     /**
@@ -60,6 +64,20 @@ public record Currency(String id, String singularName, String pluralName, BigDec
         singularName = requireText(singularName, "currency singular name mustn't be blank");
         pluralName = requireText(pluralName, "currency plural name mustn't be blank");
         Objects.requireNonNull(startingBalance, "starting balance mustn't be null");
+
+        if (minBalance.compareTo(MIN_BALANCE) < 0) {
+            throw new IllegalArgumentException("minimum balance mustn't lower than 0");
+        }
+
+        minBalance = minBalance.setScale(3, RoundingMode.HALF_UP);
+
+        if (startingBalance.compareTo(maxBalance) > 0 || startingBalance.compareTo(minBalance) < 0) {
+            throw new IllegalArgumentException("starting balance mustn't lower than minimum balance or greater than maximum balance");
+        }
+
+        if (maxBalance.compareTo(MAX_BALANCE) > 0) {
+            throw new IllegalArgumentException("maximum balance mustn't greater than Long.MAX_VALUE");
+        }
     }
 
     /**

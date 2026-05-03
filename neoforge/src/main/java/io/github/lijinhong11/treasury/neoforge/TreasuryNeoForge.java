@@ -6,12 +6,9 @@ import io.github.lijinhong11.treasury.TreasuryConfigImpl;
 import io.github.lijinhong11.treasury.command.TreasuryCommand;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -24,10 +24,11 @@ public class TreasuryCommand {
 
     public static LiteralArgumentBuilder<CommandSourceStack> getForRegistration() {
         return Commands.literal("treasury")
-                .requires(c -> c.hasPermission(2))
                 .then(Commands.literal("info")
+                        .requires(c -> c.hasPermission(2))
                         .executes(TreasuryCommand::showInfo))
                 .then(Commands.literal("balance")
+                        .requires(c -> c.hasPermission(1))
                         .then(Commands.argument("target", GameProfileArgument.gameProfile())
                                 .executes(TreasuryCommand::showBalance)));
     }

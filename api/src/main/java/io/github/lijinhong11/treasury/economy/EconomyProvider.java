@@ -10,13 +10,6 @@ import java.util.UUID;
  */
 public interface EconomyProvider {
     /**
-     * Checks if economy implementation is enabled.
-     *
-     * @return true if enabled
-     */
-    boolean isEnabled();
-
-    /**
      * Gets the unique name of economy implementation.
      *
      * @return the unique name of the economy implementation

@@ -4,7 +4,6 @@ import com.vanniktech.maven.publish.SourcesJar
 
 plugins {
     java
-    `maven-publish`
     signing
     id("com.vanniktech.maven.publish") version "0.36.0"
 }
