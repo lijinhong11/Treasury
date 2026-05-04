@@ -10,7 +10,14 @@ import java.util.Objects;
  * Mods shouldn't try to pass it!
  */
 public record Currency(String id, String singularName, String pluralName, BigDecimal minBalance, BigDecimal startingBalance, BigDecimal maxBalance) {
-    public static final BigDecimal MIN_BALANCE = BigDecimal.ZERO.setScale(3, RoundingMode.HALF_UP);
+    /**
+     * THe minimum balance
+     */
+    public static final BigDecimal MIN_BALANCE = BigDecimal.ZERO;
+
+    /**
+     * The maximum balance
+     */
     public static final BigDecimal MAX_BALANCE = new BigDecimal(Long.MAX_VALUE);
 
     /**
@@ -75,9 +82,11 @@ public record Currency(String id, String singularName, String pluralName, BigDec
             throw new IllegalArgumentException("starting balance mustn't lower than minimum balance or greater than maximum balance");
         }
 
-        if (maxBalance.compareTo(MAX_BALANCE) > 0) {
-            throw new IllegalArgumentException("maximum balance mustn't greater than Long.MAX_VALUE");
+        if (maxBalance.compareTo(MAX_BALANCE) > 0 || maxBalance.compareTo(minBalance) < 0) {
+            throw new IllegalArgumentException("maximum balance mustn't greater than Long.MAX_VALUE or less than minimum balance");
         }
+
+        maxBalance = maxBalance.setScale(3, RoundingMode.DOWN);
     }
 
     /**

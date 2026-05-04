@@ -6,7 +6,14 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * A balance synchronization packet
+ */
 public interface IBalanceSyncPacket {
+    /**
+     * Gets the player
+     * @return the player
+     */
     UUID player();
 
     /**
@@ -17,7 +24,7 @@ public interface IBalanceSyncPacket {
 
     /**
      * Gets the balances of each currency
-     * @return an unmodifiable map
+     * @return an unmodifiable map of the balances of each currency
      */
-    Map<String, BigDecimal> balances();
+    /*@Unmodifiable*/ Map<String, BigDecimal> balances();
 }

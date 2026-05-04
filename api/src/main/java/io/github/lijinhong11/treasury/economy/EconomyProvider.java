@@ -104,13 +104,6 @@ public interface EconomyProvider {
     String format(Currency currency, BigDecimal amount);
 
     /**
-     * Returns plural currency name.
-     *
-     * @return plural currency name
-     */
-    String currencyNamePlural();
-
-    /**
      * Returns plural currency name for the given currency.
      *
      * @param currency currency to query
@@ -118,18 +111,11 @@ public interface EconomyProvider {
      */
     default String currencyNamePlural(Currency currency) {
         if (!supportsCurrency(currency)) {
-            return currencyNamePlural();
+            return defaultCurrency().pluralName();
         }
 
-        return currency == null ? currencyNamePlural() : currency.pluralName();
+        return currency == null ? defaultCurrency().pluralName() : currency.pluralName();
     }
-
-    /**
-     * Returns singular currency name.
-     *
-     * @return singular currency name
-     */
-    String currencyNameSingular();
 
     /**
      * Returns singular currency name for the given currency.
@@ -139,10 +125,10 @@ public interface EconomyProvider {
      */
     default String currencyNameSingular(Currency currency) {
         if (!supportsCurrency(currency)) {
-            return currencyNameSingular();
+            return defaultCurrency().singularName();
         }
 
-        return currency == null ? currencyNameSingular() : currency.singularName();
+        return currency == null ? defaultCurrency().singularName() : currency.singularName();
     }
 
     /**
