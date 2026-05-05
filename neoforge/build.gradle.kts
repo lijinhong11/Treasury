@@ -47,10 +47,10 @@ neoForge {
             type = "data"
 
             programArguments.addAll(
-                    "--mod", "treasury",
-                    "--all",
-                    "--output", file("src/generated/resources").absolutePath,
-                    "--existing", file("src/main/resources").absolutePath
+                "--mod", "treasury",
+                "--all",
+                "--output", file("src/generated/resources").absolutePath,
+                "--existing", file("src/main/resources").absolutePath
             )
         }
     }

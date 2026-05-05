@@ -26,12 +26,6 @@ public class TreasuryFabric implements ModInitializer {
     private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("treasury.json");
     private static final Logger LOGGER = Treasury.logger();
 
-    @Override
-    public void onInitialize() {
-        init();
-        LOGGER.info("Initialized Treasury");
-    }
-
     private static void init() {
         try {
             if (Files.notExists(CONFIG_PATH)) {
@@ -67,5 +61,11 @@ public class TreasuryFabric implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(TreasuryCommand.getForRegistration());
         });
+    }
+
+    @Override
+    public void onInitialize() {
+        init();
+        LOGGER.info("Initialized Treasury");
     }
 }

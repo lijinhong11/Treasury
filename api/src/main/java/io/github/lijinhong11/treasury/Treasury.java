@@ -17,10 +17,12 @@ public class Treasury {
 
     private static TreasuryConfig CONFIG;
 
-    private Treasury() {}
+    private Treasury() {
+    }
 
     /**
      * Gets the logger
+     *
      * @return the logger
      */
     public static Logger logger() {
@@ -29,6 +31,7 @@ public class Treasury {
 
     /**
      * Gets the economy service
+     *
      * @return the economy service
      */
     public static EconomyServiceRegistry economy() {
@@ -37,6 +40,7 @@ public class Treasury {
 
     /**
      * Gets the points service
+     *
      * @return the points service
      */
     public static PointsServiceRegistry points() {
@@ -47,6 +51,7 @@ public class Treasury {
      * Sets the config
      * <br>
      * <b>NOTE: THIS IS AN INTERNAL API METHOD</b>
+     *
      * @param config the config
      */
     public static void setConfig(TreasuryConfig config) {
@@ -57,6 +62,7 @@ public class Treasury {
 
     /**
      * Gets the config
+     *
      * @return the config
      */
     public static TreasuryConfig config() {

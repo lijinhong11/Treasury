@@ -2,7 +2,6 @@ package io.github.lijinhong11.treasury.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import io.github.lijinhong11.treasury.Treasury;
 import io.github.lijinhong11.treasury.economy.EconomyProvider;
 import io.github.lijinhong11.treasury.economy.EconomyServiceRegistry;

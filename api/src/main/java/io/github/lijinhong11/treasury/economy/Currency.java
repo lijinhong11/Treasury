@@ -9,7 +9,8 @@ import java.util.Objects;
  * Default maximum balance is {@link Long#MAX_VALUE} <br>
  * Mods shouldn't try to pass it!
  */
-public record Currency(String id, String singularName, String pluralName, BigDecimal minBalance, BigDecimal startingBalance, BigDecimal maxBalance) {
+public record Currency(String id, String singularName, String pluralName, BigDecimal minBalance,
+                       BigDecimal startingBalance, BigDecimal maxBalance) {
     /**
      * THe minimum balance
      */
@@ -23,9 +24,9 @@ public record Currency(String id, String singularName, String pluralName, BigDec
     /**
      * Create a currency
      *
-     * @param id unique currency id inside a provider
+     * @param id           unique currency id inside a provider
      * @param singularName singular display name
-     * @param pluralName plural display name
+     * @param pluralName   plural display name
      */
     public Currency(String id, String singularName, String pluralName) {
         this(id, singularName, pluralName, new BigDecimal(0), new BigDecimal(0), new BigDecimal(Long.MAX_VALUE));
@@ -34,10 +35,10 @@ public record Currency(String id, String singularName, String pluralName, BigDec
     /**
      * Create a currency
      *
-     * @param id unique currency id inside a provider
+     * @param id           unique currency id inside a provider
      * @param singularName singular display name
-     * @param pluralName plural display name
-     * @param minBalance minimum balance
+     * @param pluralName   plural display name
+     * @param minBalance   minimum balance
      */
     public Currency(String id, String singularName, String pluralName, BigDecimal minBalance) {
         this(id, singularName, pluralName, minBalance, new BigDecimal(0), MAX_BALANCE);
@@ -46,10 +47,10 @@ public record Currency(String id, String singularName, String pluralName, BigDec
     /**
      * Create a currency
      *
-     * @param id unique currency id inside a provider
-     * @param singularName singular display name
-     * @param pluralName plural display name
-     * @param minBalance minimum balance
+     * @param id              unique currency id inside a provider
+     * @param singularName    singular display name
+     * @param pluralName      plural display name
+     * @param minBalance      minimum balance
      * @param startingBalance the balance when new players enter the game
      */
     public Currency(String id, String singularName, String pluralName, BigDecimal minBalance, BigDecimal startingBalance) {
@@ -59,12 +60,12 @@ public record Currency(String id, String singularName, String pluralName, BigDec
     /**
      * Create a currency
      *
-     * @param id unique currency id inside a provider
-     * @param singularName singular display name
-     * @param pluralName plural display name
-     * @param minBalance minimum balance
+     * @param id              unique currency id inside a provider
+     * @param singularName    singular display name
+     * @param pluralName      plural display name
+     * @param minBalance      minimum balance
      * @param startingBalance the balance when new players enter the game
-     * @param maxBalance maximum balance
+     * @param maxBalance      maximum balance
      */
     public Currency {
         id = requireText(id, "currency id mustn't be blank");
@@ -89,16 +90,6 @@ public record Currency(String id, String singularName, String pluralName, BigDec
         maxBalance = maxBalance.setScale(3, RoundingMode.DOWN);
     }
 
-    /**
-     * Gets the currency name through amount
-     *
-     * @param amount the amount
-     * @return the currency name
-     */
-    public String name(double amount) {
-        return Math.abs(amount) == 1D ? singularName : pluralName;
-    }
-
     private static String requireText(String value, String message) {
         Objects.requireNonNull(value, message);
 
@@ -109,6 +100,16 @@ public record Currency(String id, String singularName, String pluralName, BigDec
         }
 
         return trimmed;
+    }
+
+    /**
+     * Gets the currency name through amount
+     *
+     * @param amount the amount
+     * @return the currency name
+     */
+    public String name(double amount) {
+        return Math.abs(amount) == 1D ? singularName : pluralName;
     }
 
     @Override

@@ -10,18 +10,21 @@ import java.util.UUID;
 public interface IPointsSyncPacket {
     /**
      * Gets the player
+     *
      * @return the player
      */
     UUID player();
 
     /**
      * Gets the points provider
+     *
      * @return the points provider
      */
     PointsProvider provider();
 
     /**
      * Gets the points
+     *
      * @return the points
      */
     int points();

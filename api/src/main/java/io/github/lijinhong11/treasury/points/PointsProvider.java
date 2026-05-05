@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * Represents a points system implementation.<br>
  * Points is usually used as an advanced currency for servers.<br>
- *
+ * <p>
  * Maximum balance is {@link Integer#MAX_VALUE}
  */
 public interface PointsProvider {

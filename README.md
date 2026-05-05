@@ -3,7 +3,7 @@
 <img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg"><a href="https://modrinth.com/mod/treasury"></a></img>
 
 A simple economy & points API for Minecraft mods.  
-Inspired by the Bukkit Vault plugin.  
+Inspired by the Bukkit Vault plugin.
 
 Treasury **is not an economy implementation**.  
 Instead, like Vault, other mods provide implementations, and Treasury acts as a bridge layer between them.
@@ -58,6 +58,7 @@ Implementation mods register providers, and other mods consume them through the 
 * One provider is selected as primary
 
 Regsiter:
+
 ```java
 Treasury.economy().register(new ExampleEconomyProvider());
 ```
@@ -73,6 +74,7 @@ Selection rules:
 * Only one provider allowed
 
 Register:
+
 ```java
 Treasury.points().register(new ExamplePointsProvider());
 ```
@@ -124,9 +126,9 @@ if (Treasury.points().isRegistered()) {
 ## Commands
 
 * `/treasury info`  
-   Required Permission Level: `2`
+  Required Permission Level: `2`
 * `/treasury balance [player]`  
-   Required Permission Level: `1`
+  Required Permission Level: `1`
 
 ## Requirements
 

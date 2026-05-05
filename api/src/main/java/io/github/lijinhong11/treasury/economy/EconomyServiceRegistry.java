@@ -2,7 +2,9 @@ package io.github.lijinhong11.treasury.economy;
 
 import io.github.lijinhong11.treasury.Treasury;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class EconomyServiceRegistry {
@@ -12,6 +14,7 @@ public final class EconomyServiceRegistry {
 
     /**
      * Register an economy provider
+     *
      * @param provider the economy provider
      */
     public void register(EconomyProvider provider) {
@@ -50,9 +53,23 @@ public final class EconomyServiceRegistry {
     }
 
     /**
+     * Gets the primary economy provider
+     *
+     * @return the primary economy provider
+     */
+    public EconomyProvider getPrimary() {
+        if (primary == null) {
+            throw new IllegalStateException("No economy provider registered");
+        }
+
+        return primary;
+    }
+
+    /**
      * Set an economy provider as the primary provider.<br>
      * <b>NOTE:
      * Except for special situations, it is generally not recommended to use!</b>
+     *
      * @param name the economy provider's name
      */
     public void setPrimary(String name) {
@@ -74,19 +91,8 @@ public final class EconomyServiceRegistry {
     }
 
     /**
-     * Gets the primary economy provider
-     * @return the primary economy provider
-     */
-    public EconomyProvider getPrimary() {
-        if (primary == null) {
-            throw new IllegalStateException("No economy provider registered");
-        }
-
-        return primary;
-    }
-
-    /**
      * Check the primary economy provider has been set
+     *
      * @return whether the primary economy provider has been set
      */
     public boolean hasPrimary() {
@@ -95,6 +101,7 @@ public final class EconomyServiceRegistry {
 
     /**
      * Gets the economy provider by its name
+     *
      * @param name the economy provider's name
      * @return the economy provider or null if not found
      */
@@ -104,6 +111,7 @@ public final class EconomyServiceRegistry {
 
     /**
      * Gets all the economy providers
+     *
      * @return all the economy providers
      */
     public List<EconomyProvider> getAll() {
@@ -112,6 +120,7 @@ public final class EconomyServiceRegistry {
 
     /**
      * Check an economy provider with that name is existed
+     *
      * @param name the economy provider's name
      * @return whether an economy provider with that name is existed
      */

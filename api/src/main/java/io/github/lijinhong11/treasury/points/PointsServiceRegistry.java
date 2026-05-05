@@ -9,6 +9,7 @@ public final class PointsServiceRegistry {
 
     /**
      * Register a points provider
+     *
      * @param provider the points provider
      */
     public void register(PointsProvider provider) {
@@ -27,6 +28,7 @@ public final class PointsServiceRegistry {
 
     /**
      * Checks the points provider is existed
+     *
      * @return whether the points provider is existed
      */
     public boolean isRegistered() {
@@ -35,6 +37,7 @@ public final class PointsServiceRegistry {
 
     /**
      * Gets the points provider
+     *
      * @return the points provider
      */
     public PointsProvider get() {

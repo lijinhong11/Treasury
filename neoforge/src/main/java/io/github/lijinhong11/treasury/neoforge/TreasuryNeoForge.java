@@ -32,17 +32,6 @@ public class TreasuryNeoForge {
     public TreasuryNeoForge() {
     }
 
-    @SubscribeEvent
-    public void onStartup(FMLCommonSetupEvent event) {
-        init();
-        LOGGER.info("Initialized Treasury");
-    }
-
-    @SubscribeEvent
-    public void onRegisterCommands(RegisterCommandsEvent event) {
-        event.getDispatcher().register(TreasuryCommand.getForRegistration());
-    }
-
     private static void init() {
         try {
             if (Files.notExists(CONFIG_PATH)) {
@@ -64,5 +53,16 @@ public class TreasuryNeoForge {
         if (!Treasury.economy().hasPrimary()) {
             Treasury.logger().info("Cannot found primary economy! Did you install any economy implementation?");
         }
+    }
+
+    @SubscribeEvent
+    public void onStartup(FMLCommonSetupEvent event) {
+        init();
+        LOGGER.info("Initialized Treasury");
+    }
+
+    @SubscribeEvent
+    public void onRegisterCommands(RegisterCommandsEvent event) {
+        event.getDispatcher().register(TreasuryCommand.getForRegistration());
     }
 }

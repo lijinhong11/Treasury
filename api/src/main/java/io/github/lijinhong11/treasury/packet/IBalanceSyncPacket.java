@@ -12,18 +12,21 @@ import java.util.UUID;
 public interface IBalanceSyncPacket {
     /**
      * Gets the player
+     *
      * @return the player
      */
     UUID player();
 
     /**
      * Gets the economy provider
+     *
      * @return the economy provider
      */
     EconomyProvider provider();
 
     /**
      * Gets the balances of each currency
+     *
      * @return an unmodifiable map of the balances of each currency
      */
     /*@Unmodifiable*/ Map<String, BigDecimal> balances();
